@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jean-François Brodeur - Site Personnel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Jean-François Brodeur</h1>
+            <p>Coordonnateur de programme en techniques de l'informatique et passionné par l'enseignement et l'innovation pédagogique.</p>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#projects">Projets</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="cours.html">Cours</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section id="about" class="container">
+            <h2>À propos</h2>
+            <p>Je suis enseignant au collégial depuis plus de 10 ans, spécialisé en techniques de l'informatique. Passionné par l'enseignement, j'explore l'utilisation des technologies, notamment les robots-tuteurs basés sur l'intelligence artificielle, pour améliorer l'apprentissage de la programmation et des bases de données.</p>
+        </section>
+
+        <section id="liste_clients" class="container">
+            <h2>Clients</h2>
+            <p>Ceci est une liste de clients</p>
+            <div id="clients">
+                <script>
+                    // Fetch data via requests
+                    fetch('https://localhost/clients')
+                      .then(response => response.json())
+                      .then(data => {
+                      const clientList = data.map(
+                        client => `<li> id: ${client.id_client} - nom: ${client.nom}</li>`
+                      ).join('');
+                      document.getElementById('liste_clients').innerHTML = `<ul>${clientList}</ul>`;
+                    })
+                      .catch(error => console.error('Error occurred:', error));
+                    </script>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Jean-François Brodeur. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>

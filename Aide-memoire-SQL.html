@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle SQL Cheat Sheet</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Aide-mémoire Oracle SQL</h1>
+    
+    <h2>Requête SELECT</h2>
+    <pre>
+        <strong>SELECT</strong> col1, col2 
+          <strong>FROM</strong> table 
+          <strong>JOIN</strong> table2 
+            <strong>ON</strong> table1.col = table2.col 
+         <strong>WHERE</strong> condition 
+        <strong>GROUP BY</strong> nom_colonne 
+        <strong>HAVING</strong> condition 
+        <strong>ORDER BY</strong> BY col1 <strong>ASC|DESC</strong>;</pre>
+    
+    <h2>Mots-clés SELECT</h2>
+    <table>
+        <tr><th>Mot-clé</th><th>Description</th><th>Exemple</th></tr>
+        <tr><td><strong>DISTINCT</strong></td><td>Supprime les résultats en double</d><td><pre>
+            SELECT <strong>DISTINCT</strong> nom_produit 
+            FROM produit;</pre></td></tr>
+        <tr><td><strong>BETWEEN</strong></td><td>Correspond à une valeur entre deux autres bornes (inclusives)</td><td><pre>
+            SELECT nom_produit 
+              FROM produit 
+             WHERE prix <strong>BETWEEN</strong> 50 <strong>AND</strong> 100;</pre></td></tr>
+        <tr><td><strong>IN</strong></td><td>Correspond à l'une des valeurs d'une liste</td><td><pre>
+            SELECT nom_produit 
+            FROM produit 
+            WHERE categorie <strong>IN</strong> ('Electronique', 'Meuble');</pre></td></tr>
+        <tr><td><strong>LIKE</strong></td><td>Effectue des correspondances avec des caractères génériques (wildcards) _ ou %</td><td><pre>
+            SELECT nom_produit 
+            FROM produit 
+            WHERE nom_produit <strong>LIKE</strong> '%Bur%';</pre></td></tr>
+    </table>
+    <h2>Requête SELECT avec jointures</h2>
+    <pre>
+        <strong>SELECT</strong> table1.*, table2.* 
+          <strong>FROM</strong> table1 type_jointure 
+          <strong>JOIN</strong> table2 
+            <strong>ON</strong> table1.col = table2.col;</pre>
+    <h2>Type de Jointures</h2>
+    <table>
+        <tr><th>Type</th><th>Description</th></tr>
+        <tr><td><strong>INNER JOIN</strong></td><td>Affiche tous les enregistrements correspondants dans les deux tables.</td></tr>
+        <tr><td><strong>LEFT JOIN</strong></td><td>Affiche tous les enregistrements de la table de gauche et les enregistrements correspondants de la table de droite.</td></tr>
+        <tr><td><strong>RIGHT JOIN</strong></td><td>Affiche tous les enregistrements de la table de droite et les enregistrements correspondants de la table de gauche.</td></tr>
+        <tr><td><strong>FULL JOIN</strong></td><td>Affiche tous les enregistrements des deux tables, qu'il y ait correspondance ou non.</td></tr>
+    </table>
+    <h2>Exemple de jointure interne:</h2>
+    <pre>
+        <strong>SELECT</strong> c.id_client, c.nom_client, p.id_panier, p.date_creation 
+          <strong>FROM</strong> client c 
+        <strong>INNER JOIN</strong> panier p 
+          <strong>ON</strong> c.id_client=p.id_client;</pre>        
+    <h2>Modification des données</h2>
+    <table>
+        <tr><th>Opération</th><th>Commande SQL</th></tr>
+        <tr><td>Insertion</td><td><pre>INSERT INTO nom_table (col1, col2...) VALUES (val1, val2);</pre></td></tr>
+        <tr><td>Mise à jour</td><td><pre>UPDATE nom_table SET col1 = val1 WHERE condition;</pre></td></tr>
+        <tr><td>Suppression</td><td><pre>DELETE FROM nom_table WHERE condition;</pre></td></tr>
+        </table>
+        <h2>Création de tables</h2>
+        <pre>
+            <strong>CREATE TABLE</strong> nom_table (
+                [id_nom_identifiant type_donnees PRIMARY KEY IDENTITY],
+                nom_colonne type_donnees NOT NULL,
+                nom_colonne2 type_donnees,
+                ...)
+        </pre>
+<table>
+    <h2>Création de tables avec contraintes</h2>
+    <tr>
+        <th>Type</th>
+        <th>Exemple SQL</th>
+    </tr>
+    <tr>
+        <td>Création de table avec clé primaire</td>
+        <td><pre>CREATE TABLE nom_table (
+    nom_nom_nom_colonne type_donnees NOT NULL,
+    CONSTRAINT pkname PRIMARY KEY (nom_colonne)
+);</pre></td>
+    </tr>
+    <tr>
+        <td>Création de table avec clé étrangère</td>
+        <td><pre>CREATE TABLE nom_table (
+    nom_colonne type_donnees NOT NULL,
+    CONSTRAINT fkname FOREIGN KEY (nom_colonne) 
+    REFERENCES autre_table(nom_colonne_autre_table)
+);</pre></td>
+    </tr>
+    <tr>
+        <td>Création de table avec contrainte UNIQUE</td>
+        <td><pre>CREATE TABLE nom_table (
+    nom_colonne type_donnees NOT NULL,
+    CONSTRAINT ucname UNIQUE (nom_colonne)
+);</pre></td>
+    </tr>
+    <tr>
+        <td>Création de table avec contrainte CHECK</td>
+        <td><pre>CREATE TABLE nom_table (
+    nom_colonne type_donnees NOT NULL,
+    CONSTRAINT ckname CHECK (conditions)
+);</pre></td>
+    </tr>
+</table>
+    
+    <h2>Modification de table</h2>
+    <pre>ALTER TABLE nom_table ADD nom_colonne type_données;</pre>
+    
+    <h2>Index</h2>
+    <pre>CREATE INDEX indexname ON nom_table (cols);</pre>
+    
+    <h2>Opérateurs d'ensemble</h2>
+    <table>
+        <tr><th>Opérateur</th><th>Description</th></tr>
+        <tr><td>UNION</td><td>Affiche les lignes uniques de deux ensembles de résultats.</td></tr>
+        <tr><td>UNION ALL</td><td>Affiche toutes les lignes de deux ensembles de résultats.</td></tr>
+        <tr><td>INTERSECT</td><td>Affiche les lignes qui existent dans les deux ensembles de résultats.</td></tr>
+        <tr><td>EXCEPT</td><td>Affiche les lignes qui existent dans le premier ensemble de résultats mais pas dans le second.</td></tr>
+    </table>
+    
+    <h2>Fonctions analytiques</h2>
+    <pre>SELECT student_id, first_name, last_name, gender, fees_paid, RANK() OVER (PARTITION BY gender ORDER BY fees_paid) AS rank_val FROM student;</pre>
+    
+    <h2>Sous-requêtes</h2>
+    <pre>SELECT id, last_name, salary FROM employee WHERE salary = (SELECT MAX(salary) FROM employee);</pre>
+    
+    <h2>Expression de table commune (CTE)</h2>
+    <pre>WITH queryname AS (SELECT col1, col2 FROM firsttable) SELECT col1, col2 FROM queryname;</pre>
+</body>
+</html>
